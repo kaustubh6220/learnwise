@@ -1,6 +1,6 @@
 import { Document, Schema, model, models } from "mongoose";
 
-export interface IImage extends Document {
+export interface IPromt extends Document {
   title: string;
   publicId: string;
   prompt?: string;
@@ -13,7 +13,7 @@ export interface IImage extends Document {
   updatedAt?: Date;
 }
 
-const ImageSchema = new Schema({
+const PromtSchema = new Schema({
   title: { type: String, required: true },
   publicId: { type: String, required: true },
   prompt: { type: String },
@@ -22,6 +22,6 @@ const ImageSchema = new Schema({
   updatedAt: { type: Date, default: Date.now }
 });
 
-const Image = models?.Image || model('Image', ImageSchema);
+const Promt = models?.Promt || model('Promt', PromtSchema);
 
-export default Image;
+export default Promt;
