@@ -119,12 +119,12 @@ declare type SearchParamProps = {
 };
 
 declare type TransformationFormProps = {
-  action: "Add" | "Update";
+  // action: "Add" | "Update";
   userId: string;
-  type: TransformationTypeKey;
+  // type: TransformationTypeKey;
   creditBalance: number;
   data?: IImage | null;
-  config?: Transformations | null;
+  // config?: Transformations | null;
 };
 
 declare type TransformedImageProps = {

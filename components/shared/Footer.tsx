@@ -5,7 +5,7 @@ import React from 'react'
 const Footer = () => {
   return (
     <footer className=' border-t'>
-      <div className='flex items-center justify-center flex-col gap-4 p-5 text-center sm:flex-row sm:justify-between'>
+      <div className='flex items-center justify-center flex-col gap-1 p-5 text-center sm:flex-row sm:justify-between'>
         <Link href='/'>
           <Image src='/assets/images/logo.svg' alt='logo' width={128} height={38}>
             
