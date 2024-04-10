@@ -1,17 +1,20 @@
 "use client"
 
 import React from 'react'
-// import Lottie from 'lottie-react'
-// import animationData from '../../public/assets/gif/earth.json'
 import Image from 'next/image'
+import Lottie from 'lottie-react'
+import animationData from '../../public/assets/gif/welcomeTeacher.json'
+
 
 const MainScreen = () => {
   return (
-    <div className=' border-2 border-slate-400 shadow-md rounded-lg h-5/6 w-5/6 flex flex-row justify-between items-center'>
-        <p>Weather is this hour-to-hour, day to day condition of the atmosphere. A hot or humid weather may make one irritable. A pleasant, breezy weather can make one cheerful and even plan for an outing. Weather can change dramatically from day today. The average weather condition of a place for a longer period of time represents the climate of that place.</p>
-        <Image src='/assets/gif/earth1.gif' height={120} width={120} alt='logo'/>
+    <div className=' border-t-2 shadow-lg rounded-lg h-5/6 w-5/6 flex flex-row items-center justify-center text-center max-lg:p-4'>
+      <div className=' flex flex-col items-center justify-center'>
+        <p className=' text-3xl text-slate-500'>Welcome To LearnWise!</p>
+        <p className=' text-2xl mt-2 text-slate-600'>How can we help you...?</p>
+      </div>
 
-      {/* <Lottie animationData={animationData} style={{height:140,width:100}}/> */}
+      <Lottie animationData={animationData} style={{height:'330px', width:'300px'}} />
     </div>
   )
 }
