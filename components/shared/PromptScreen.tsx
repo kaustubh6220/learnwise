@@ -1,27 +1,122 @@
-'use client'
+"use client"
 
-import { creditFee } from '@/constants'
-import React from 'react'
-import { InsufficientCreditsModal } from './InsufficiantCreditsModel'
-import { updateCredits } from '@/lib/actions/user.actions'
+import { Loader2, Plus, Send } from "lucide-react";
+import React, {
+  ChangeEvent,
+  Dispatch,
+  FormEvent,
+  SetStateAction,
+  useState,
+} from "react";
+import SelectedImages from "./SelectedImages";
+import { ChatRequestOptions } from "ai";
 
-const PromptScreen = ({ creditBalance, userId }: TransformationFormProps) => {
-    console.log("credit balance",creditBalance)
-  const handleSubmit = async (event:any) => {
-    event.preventDefault(); // Prevent the default form submission behavior
-    await updateCredits(userId, creditFee);
-  }
+type Props = {
+  handleInputChange: ( e: ChangeEvent<HTMLInputElement> | ChangeEvent<HTMLTextAreaElement> ) => void;
+  handleSubmit: ( e: FormEvent<HTMLFormElement>, chatRequestOptions?: ChatRequestOptions | undefined ) => void;
+  input: string;
+  isLoading: boolean;
+  stop: () => void
+};
 
+const InputForm = ({
+  handleInputChange,
+  handleSubmit,
+  input,
+  isLoading,
+  stop
+}: Props) => {
+  const [images, setImages] = useState<string[]>([]);
+  const handleImageSelection = async (event: ChangeEvent<HTMLInputElement>) => {
+    const files = event.target.files;
+    if (!files) return;
+    const imagePromises = [];
+    for (let i = 0; i < files.length; i++) {
+      const file = files[i];
+      // Process the file
+      const reader = new FileReader();
+
+      imagePromises.push(
+        new Promise<string>((resolve, reject) => {
+          // set onload on reader
+          reader.onload = (e) => {
+            const base64String = e.target?.result?.toString();
+            // const base64String = e.target?.result?.toString().split(",")[1];
+            resolve(base64String as string);
+          };
+          // set onerror on reader
+          reader.onerror = (error) => reject(error);
+          reader.readAsDataURL(file);
+        })
+      );
+    }
+
+    try {
+      const base64Strings = await Promise.all(imagePromises); // Wait for all conversions
+      // setImages(base64Strings as string[]);
+      setImages((prevImages: string[]) => {
+        // Explicitly type the result as a string array
+        const updatedImages: string[] = [
+          ...prevImages,
+          ...(base64Strings as string[]),
+        ];
+        // const updatedImages: string[] = base64Strings as string[];
+        return updatedImages;
+      });
+    } catch (error) {
+      console.error("Error reading image:", error);
+    }
+  };
   return (
-    <form onSubmit={handleSubmit} className='w-5/6 h-8 flex flex-row'>
-      {creditBalance < Math.abs(creditFee) && <InsufficientCreditsModal />}
-      <div>
-        
+    <form
+      onSubmit={(event) => {
+        event.preventDefault();
+        handleSubmit(event, {
+          data: {
+            images: JSON.stringify(images),
+          },
+        });
+      }}
+      className="w-5/6 shadow-lg rounded-md flex flex-row gap-10 items-center h-10 mt-3"
+    >
+      <div className="flex flex-row relative">
+        <Plus
+          onClick={() => document.getElementById("fileInput")?.click()} // Click event handler
+          className="cursor-pointer p-3 h-10 w-10 stroke-stone-500"
+        />
+        <SelectedImages images={images} setImages={setImages} />
       </div>
-      <input placeholder='message' className='h-8 w-full border-t-2 shadow-md rounded-lg' />
-      <button type='submit' className='px-2 ml-2 bg-orange-400 rounded-lg text-white hover:bg-orange-500'>Send</button>
+      <input
+        className="hidden"
+        id="fileInput"
+        type="file"
+        accept="image/*"
+        multiple
+        onChange={handleImageSelection}
+      />
+      <input
+        type="text"
+        placeholder={isLoading ? "Generating . . ." : "ask something . . . "}
+        value={input}
+        disabled={isLoading}
+        onChange={handleInputChange}
+        className="outline-none w-full text-[#0842A0] placeholder:text-[#0842A099] text-right focus:placeholder-transparent disabled:bg-transparent"
+      />
+      <button
+        type="submit"
+        className="rounded-full shadow-md border flex flex-row"
+      >
+        {isLoading ? (
+          <Loader2
+            onClick={stop}
+            className=" h-8 w-8 stroke-stone-500 animate-spin"
+          />
+        ) : (
+          <Send className="p-3 h-8 w-8 stroke-stone-500" />
+        )}
+      </button>
     </form>
-  )
-}
+  );
+};
 
-export default PromptScreen
+export default InputForm;
