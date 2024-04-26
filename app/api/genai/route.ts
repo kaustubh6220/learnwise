@@ -37,6 +37,7 @@ export async function POST(req: Request, res: Response) {
 }
 
 function buildGoogleGenAIPrompt(messages: Message[]) {
+  console.log("this is message",messages)
   return {
     contents: messages
       .filter(

@@ -1,8 +1,8 @@
 import { Document, Schema, model, models } from "mongoose";
 
 export interface IPromt extends Document {
-  title: string;
   prompt?: string;
+  answer:string;
   author: {
     _id: string;
     firstName: string;
@@ -13,8 +13,9 @@ export interface IPromt extends Document {
 }
 
 const PromtSchema = new Schema({
-  title: { type: String, required: true },
   prompt: { type: String },
+  answer: { type: String },
+
   author: { type: Schema.Types.ObjectId, ref: 'User' },
   createdAt: { type: Date, default: Date.now },
   updatedAt: { type: Date, default: Date.now }

@@ -10,6 +10,10 @@ import React, {
 } from "react";
 import SelectedImages from "./SelectedImages";
 import { ChatRequestOptions } from "ai";
+import { FaImage } from "react-icons/fa";
+import { IoIosSend } from "react-icons/io";
+
+
 
 type Props = {
   handleInputChange: ( e: ChangeEvent<HTMLInputElement> | ChangeEvent<HTMLTextAreaElement> ) => void;
@@ -80,7 +84,7 @@ const InputForm = ({
       className="w-5/6 shadow-lg rounded-md flex flex-row gap-10 items-center h-10 mt-3"
     >
       <div className="flex flex-row relative">
-        <Plus
+        <FaImage
           onClick={() => document.getElementById("fileInput")?.click()} // Click event handler
           className="cursor-pointer p-3 h-10 w-10 stroke-stone-500"
         />
@@ -112,7 +116,7 @@ const InputForm = ({
             className=" h-8 w-8 stroke-stone-500 animate-spin"
           />
         ) : (
-          <Send className="p-3 h-8 w-8 stroke-stone-500" />
+          <IoIosSend className=" p-1 h-8 w-8 stroke-stone-500" />
         )}
       </button>
     </form>
