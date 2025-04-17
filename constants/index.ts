@@ -8,8 +8,8 @@ export const headerLinks = [
       route: '/ask',
     },
     {
-      label: 'History',
-      route: '/history',
+      label: 'Quizes',
+      route: '/quiz',
     },
     {
       label: 'Credits',

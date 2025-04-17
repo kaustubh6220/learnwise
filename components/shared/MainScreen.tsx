@@ -11,6 +11,7 @@ import { VscDebugRestart } from "react-icons/vsc";
 import animationData from '../../public/assets/gif/teaching.json';
 import welcomeTeacher from '../../public/assets/gif/welcomeTeacher.json';
 import { useSpring, animated } from '@react-spring/web'
+import { ScrollArea } from "../ui/scroll-area";
 
 
 
@@ -126,9 +127,9 @@ useEffect(() => {
                 >
                   <Lottie className=" max-lg:hidden" animationData={animationData} />
                 </div>
-                <div className="w-4/5 text-center h-60 overflow-y-scroll">
+                <ScrollArea className="w-4/5 text-center h-60 ">
                   <p>{messages[messages.length - 1].content}</p>
-                </div>
+                </ScrollArea>
 
               </div>
             )}
